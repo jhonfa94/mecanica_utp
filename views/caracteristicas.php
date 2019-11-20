@@ -129,8 +129,8 @@
 
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; <?=date('Y')?> <a href="https://www.coytex.com.co" target="_blank">CO&TEX
-          S.A.S.</a>.</strong> Todos los derechos reservados.
+      <strong>Copyright &copy; <?=date('Y')?> <a href="https://www.utp.edu.co" target="_blank">UTP
+          </a></strong> Todos los derechos reservados.
     </footer>
   </div>
   <!-- ./wrapper -->

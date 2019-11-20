@@ -65,7 +65,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="./grupo.php" class="nav-link">              
+            <a href="./grupos.php" class="nav-link">              
               <i class="nav-icon fas fa-layer-group"></i>
               <p>  Grupos </p>
             </a>

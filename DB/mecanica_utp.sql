@@ -28,11 +28,15 @@ CREATE TABLE IF NOT EXISTS `actividad_mantenimiento` (
   KEY `FK2_repuestos` (`idRepuesto`),
   CONSTRAINT `FK1_herramientas` FOREIGN KEY (`idHerramienta`) REFERENCES `herramientas` (`idHerramienta`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK2_repuestos` FOREIGN KEY (`idRepuesto`) REFERENCES `repuestos` (`idRepuesto`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla para almacenar los mantenimientos que se tienen disponibles';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Tabla para almacenar los mantenimientos que se tienen disponibles';
 
--- Volcando datos para la tabla mecanica_utp.actividad_mantenimiento: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla mecanica_utp.actividad_mantenimiento: ~3 rows (aproximadamente)
 DELETE FROM `actividad_mantenimiento`;
 /*!40000 ALTER TABLE `actividad_mantenimiento` DISABLE KEYS */;
+INSERT INTO `actividad_mantenimiento` (`idMantenimiento`, `idHerramienta`, `idRepuesto`, `mantenimiento`, `fecha_creacion`) VALUES
+	(2, 2, 4, 'Limpieza de teclado', '2019-11-19'),
+	(3, 1, 1, 'Mantenimiento Frontal', '2019-11-19'),
+	(4, 3, 3, 'Cambio de pantalla', '2019-11-19');
 /*!40000 ALTER TABLE `actividad_mantenimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla mecanica_utp.caracteristicas
@@ -42,34 +46,45 @@ CREATE TABLE IF NOT EXISTS `caracteristicas` (
   `color` varchar(50) NOT NULL,
   `modelo` varchar(50) NOT NULL,
   PRIMARY KEY (`idCaracteristica`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla donde se almacena las caracteristicas';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Tabla donde se almacena las caracteristicas';
 
--- Volcando datos para la tabla mecanica_utp.caracteristicas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla mecanica_utp.caracteristicas: ~8 rows (aproximadamente)
 DELETE FROM `caracteristicas`;
 /*!40000 ALTER TABLE `caracteristicas` DISABLE KEYS */;
+INSERT INTO `caracteristicas` (`idCaracteristica`, `marca`, `color`, `modelo`) VALUES
+	(1, 'Motorola', 'Negro', 'G5s'),
+	(2, 'Lenovo', 'Blanco', 'E480'),
+	(3, 'Dell', 'Gris', 'N5050'),
+	(6, 'Motorola', 'Indigo', 'G7 plus'),
+	(7, 'LG', 'Rojo', 'Lg35465'),
+	(9, 'Motorola', 'Blanco', 'Z-PLAY'),
+	(10, 'Dell', 'Negro', 'n5040'),
+	(11, 'COMPAQ', 'Gris', 'CQ45');
 /*!40000 ALTER TABLE `caracteristicas` ENABLE KEYS */;
 
--- Volcando estructura para tabla mecanica_utp.crear_equipo
-CREATE TABLE IF NOT EXISTS `crear_equipo` (
+-- Volcando estructura para tabla mecanica_utp.equipos
+CREATE TABLE IF NOT EXISTS `equipos` (
   `idEquipo` int(11) NOT NULL AUTO_INCREMENT,
+  `equipo` varchar(100) NOT NULL DEFAULT '',
   `idGrupo` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL DEFAULT '',
   `frecuencia` int(11) NOT NULL,
   `fecha_creacion` date NOT NULL,
   PRIMARY KEY (`idEquipo`),
   KEY `FK1_grupo` (`idGrupo`),
-  CONSTRAINT `FK1_grupo` FOREIGN KEY (`idGrupo`) REFERENCES `grupo` (`idGrupo`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK1_grupo` FOREIGN KEY (`idGrupo`) REFERENCES `grupos` (`idGrupo`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla mecanica_utp.crear_equipo: ~0 rows (aproximadamente)
-DELETE FROM `crear_equipo`;
-/*!40000 ALTER TABLE `crear_equipo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `crear_equipo` ENABLE KEYS */;
+-- Volcando datos para la tabla mecanica_utp.equipos: ~1 rows (aproximadamente)
+DELETE FROM `equipos`;
+/*!40000 ALTER TABLE `equipos` DISABLE KEYS */;
+INSERT INTO `equipos` (`idEquipo`, `equipo`, `idGrupo`, `frecuencia`, `fecha_creacion`) VALUES
+	(2, 'Dos', 4, 2, '2019-11-19');
+/*!40000 ALTER TABLE `equipos` ENABLE KEYS */;
 
--- Volcando estructura para tabla mecanica_utp.grupo
-CREATE TABLE IF NOT EXISTS `grupo` (
+-- Volcando estructura para tabla mecanica_utp.grupos
+CREATE TABLE IF NOT EXISTS `grupos` (
   `idGrupo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
+  `grupo` varchar(100) NOT NULL,
   `idCaracteristica` int(11) NOT NULL,
   `idMantenimiento` int(11) NOT NULL,
   `fecha_creacion` date NOT NULL,
@@ -78,12 +93,16 @@ CREATE TABLE IF NOT EXISTS `grupo` (
   KEY `FK2_mantenimiento` (`idMantenimiento`),
   CONSTRAINT `FK1_caracteristica` FOREIGN KEY (`idCaracteristica`) REFERENCES `caracteristicas` (`idCaracteristica`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK2_mantenimiento` FOREIGN KEY (`idMantenimiento`) REFERENCES `actividad_mantenimiento` (`idMantenimiento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Grupos de mantenimiento';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Grupos de mantenimiento';
 
--- Volcando datos para la tabla mecanica_utp.grupo: ~0 rows (aproximadamente)
-DELETE FROM `grupo`;
-/*!40000 ALTER TABLE `grupo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `grupo` ENABLE KEYS */;
+-- Volcando datos para la tabla mecanica_utp.grupos: ~3 rows (aproximadamente)
+DELETE FROM `grupos`;
+/*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
+INSERT INTO `grupos` (`idGrupo`, `grupo`, `idCaracteristica`, `idMantenimiento`, `fecha_creacion`) VALUES
+	(2, 'Celulares', 1, 3, '2019-11-19'),
+	(3, 'Teclados', 3, 2, '2019-11-19'),
+	(4, 'Pantallas', 11, 4, '2019-11-19');
+/*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla mecanica_utp.herramientas
 CREATE TABLE IF NOT EXISTS `herramientas` (
@@ -91,11 +110,16 @@ CREATE TABLE IF NOT EXISTS `herramientas` (
   `herramienta` varchar(50) NOT NULL,
   `fecha_creacion` date NOT NULL,
   PRIMARY KEY (`idHerramienta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Herramientas disponibles ';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Herramientas disponibles ';
 
--- Volcando datos para la tabla mecanica_utp.herramientas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla mecanica_utp.herramientas: ~4 rows (aproximadamente)
 DELETE FROM `herramientas`;
 /*!40000 ALTER TABLE `herramientas` DISABLE KEYS */;
+INSERT INTO `herramientas` (`idHerramienta`, `herramienta`, `fecha_creacion`) VALUES
+	(1, 'KIT 1', '2019-11-19'),
+	(2, 'KIT 2', '2019-11-18'),
+	(3, 'kit 4', '2019-11-19'),
+	(4, 'Kit 5', '2019-11-19');
 /*!40000 ALTER TABLE `herramientas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla mecanica_utp.repuestos
@@ -105,11 +129,15 @@ CREATE TABLE IF NOT EXISTS `repuestos` (
   `cantidad` int(11) NOT NULL,
   `fecha_creacion` date NOT NULL,
   PRIMARY KEY (`idRepuesto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla para almacenar los respuestos';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Tabla para almacenar los respuestos';
 
--- Volcando datos para la tabla mecanica_utp.repuestos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla mecanica_utp.repuestos: ~3 rows (aproximadamente)
 DELETE FROM `repuestos`;
 /*!40000 ALTER TABLE `repuestos` DISABLE KEYS */;
+INSERT INTO `repuestos` (`idRepuesto`, `repuesto`, `cantidad`, `fecha_creacion`) VALUES
+	(1, 'frontal', 15, '2019-11-18'),
+	(3, 'Pantalla', 15, '2019-11-18'),
+	(4, 'teclado', 45, '2019-11-18');
 /*!40000 ALTER TABLE `repuestos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
