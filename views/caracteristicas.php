@@ -55,9 +55,9 @@
                 <table id="tblCaracteristicas" class="table table-sm table-hover table-bordered" style="width:98%">
                   <thead class="thead-light">
                     <tr>                      
-                      <th>MARCA</th>
-                      <th>COLOR</th>
-                      <th>MODELO</th>
+                      <th>ID</th>
+                      <th>CARACTERÍSTICA</th>
+                      <th>FECHA</th>
                       <th></th>
                       
                     </tr>
@@ -87,17 +87,10 @@
                   <form id="frmCaracteristicas">
                   <div class="modal-body">
                       <div class="form-group">
-                        <label for="marca">Marca</label>
-                        <input id="marca" class="form-control inputValue" type="text" name="marca" required>
+                        <label for="caracteristica">Característica</label>
+                        <input id="caracteristica" class="form-control inputValue" type="text" name="caracteristica" required placeholder="Nombre de la caraterística">
                       </div>
-                      <div class="form-group">
-                        <label for="color">Color</label>
-                        <input id="color" class="form-control inputValue" type="text" name="color" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="modelo">Modelo</label>
-                        <input id="modelo" class="form-control inputValue" type="text" name="modelo" required>
-                      </div>
+                      
 
                       <input type="hidden" name="peticion" value="registrar">
                     
@@ -225,9 +218,9 @@
                 template += //html
                 `
                   <tr>                 
-                    <td>${d.marca}</td>
-                    <td>${d.color}</td>
-                    <td>${d.modelo}</td>                  
+                    <td>${d.idCaracteristica}</td>
+                    <td>${d.caracteristica}</td>
+                    <td>${d.fecha_creacion}</td>                  
                     <td>
                       <!-- ACTUALIZAR-->
                       <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#actualizar${d.idCaracteristica}">
@@ -247,17 +240,10 @@
                               <div class="modal-body">
                                   
                                 <div class="form-group">
-                                  <label for="marca">Marca</label>
-                                  <input id="marca" class="form-control inputValue" type="text" name="marca" value="${d.marca}" required>
+                                  <label for="caracteristica">Característica</label>
+                                  <input id="caracteristica" class="form-control inputValue" type="text" name="caracteristica" value="${d.caracteristica}" required>
                                 </div>
-                                <div class="form-group">
-                                  <label for="color">Color</label>
-                                  <input id="color" class="form-control inputValue" type="text" name="color" value="${d.color}" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="modelo">Modelo</label>
-                                  <input id="modelo" class="form-control inputValue" type="text" name="modelo" value="${d.modelo}" required>
-                                </div>
+                                
 
                                 <input type="hidden" id="idCaracteristica" name="idCaracteristica" value="${d.idCaracteristica}">
                                 <input type="hidden" id="peticion" name="peticion" value="actualizar">
@@ -290,7 +276,7 @@
                             <form class="frmEliminar" action="../CRUD/caracteristica.php">
                             <div class="modal-body">
                             
-                              <p>Marca: ${d.marca}</p>
+                              <p>Marca: ${d.caracteristica}</p>
                               <p>Color: ${d.color}</p>
                               <p>Modelo: ${d.modelo}</p>
                               

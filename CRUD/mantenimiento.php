@@ -2,18 +2,35 @@
 include_once './database.php';
 $conexionDB = conexionDB();
 
+
 //RECIBO DATOS DEL FORMULARIO
-$idHerramienta = isset($_REQUEST['idHerramienta']) ? $_REQUEST['idHerramienta'] : 0;
+$idHerramienta = isset($_REQUEST['idHerramienta']) ?  $_REQUEST['idHerramienta'] : 0;
 $idRepuesto = isset($_REQUEST['idRepuesto']) ? $_REQUEST['idRepuesto'] : 0;
+
+
+
 $mantenimiento = isset($_REQUEST['mantenimiento']) ? $_REQUEST['mantenimiento'] : '';
 $idMantenimiento = isset($_REQUEST['idMantenimiento']) ? $_REQUEST['idMantenimiento'] : 0;
 $peticion = isset($_REQUEST['peticion']) ? $_REQUEST['peticion'] : '';
 
 switch ($peticion) {
     case 'registrar':
+                
+        $herramientas = '';
+        foreach ($_REQUEST['idHerramienta'] as $h) {
+            $herramientas .= $h .",";
+        }
+
+        $repuestos = '';
+        foreach ($_REQUEST['idRepuesto'] as $r) {
+            $repuestos .= $r .",";
+        }
+
+        
+
         $sql = "INSERT INTO actividad_mantenimiento VALUES(NULL,
-            '$idHerramienta',
-            '$idRepuesto',
+            '$herramientas',
+            '$repuestos',
             '$mantenimiento',
             CURDATE()
         )";
@@ -29,13 +46,16 @@ switch ($peticion) {
     break;
 
     case 'listar':
-        $sql = "SELECT m.idMantenimiento, 
+        /* $sql = "SELECT m.idMantenimiento, 
             m.idHerramienta,  h.herramienta,
             m.idRepuesto, r.repuesto,
             m.mantenimiento, m.fecha_creacion
             FROM actividad_mantenimiento m
             INNER JOIN herramientas h ON m.idHerramienta = h.idHerramienta
             INNER JOIN repuestos r ON m.idRepuesto = r.idRepuesto
+        "; */
+        $sql = "SELECT *
+            FROM actividad_mantenimiento            
         ";
         $resultado = $conexionDB->query($sql);
         if ($resultado) {

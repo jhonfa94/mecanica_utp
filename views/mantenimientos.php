@@ -6,6 +6,8 @@
 
   <link rel="stylesheet" href="./plugins/datatables/jquery.dataTables.min.css">
 
+  <link rel="stylesheet" href="./plugins/select2/select2.min.css">
+
   <title>Mantenimientos</title>
 </head>
 
@@ -89,13 +91,13 @@
                   <div class="modal-body">
                       <div class="form-group">
                         <label for="idHerramienta">Herramienta</label>
-                        <select id="idHerramienta" class="form-control inputValue herramientas" name="idHerramienta" required> 
+                        <select id="idHerramienta" class="form-control inputValue herramientas selectMultiple" name="idHerramienta[]" multiple="multiple"" required> 
                         </select>
                       </div>
 
                       <div class="form-group">
                         <label for="idRepuesto">Repuesto</label>
-                        <select id="idRepuesto" class="form-control inputValue repuestos" name="idRepuesto" required> 
+                        <select id="idRepuesto" class="form-control inputValue repuestos selectMultiple" name="idRepuesto[]" multiple="multiple"" required> 
                         </select>
                       </div>
 
@@ -144,6 +146,7 @@
   <?php include './includes/scripts.php';?>
   <script src="./plugins/sweetalert2/sweetalert2@8.js"></script>
   <script src="./plugins/datatables/dataTables.min.js"></script>
+  <script src="./plugins/select2/select2.min.js"></script>
 
 
   <script>
@@ -177,6 +180,9 @@
         e.preventDefault();
         $(".inputValue").val('');        
       });
+
+      //select2
+      $('.selectMultiple').select2();
 
       //formulario
       $("#frmMantenimientos").submit(function (e) { 
@@ -231,60 +237,11 @@
                 `
                   <tr>                 
                     <td>${d.idMantenimiento}</td>
-                    <td>${d.herramienta}</td>
-                    <td>${d.repuesto}</td>
+                    <td>${d.idHerramienta}</td>
+                    <td>${d.idRepuesto}</td>
                     <td>${d.mantenimiento}</td>                  
                     <td>
-                      <!-- ACTUALIZAR-->
-                      <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#actualizar${d.idMantenimiento}">
-                        ACTUALIZAR
-                      </button>                        
-                      <!-- Modal Actualizar -->
-                      <div class="modal fade" id="actualizar${d.idMantenimiento}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form class="frmActualizar" action="../CRUD/mantenimiento.php">
-                              <div class="modal-body">
-                                  
-                              <div class="form-group">
-                                <label for="idHerramienta">Herramienta</label>
-                                <select id="idHerramienta" class="form-control inputValue herramientas" name="idHerramienta" required> 
-                                  <option value="${d.idHerramienta}" selected>${d.herramienta}</option>
-
-                                </select>
-                              </div>
-
-                              <div class="form-group">
-                                <label for="idRepuesto">Repuesto</label>
-                                <select id="idRepuesto" class="form-control inputValue repuestos" name="idRepuesto" required> 
-                                  <option value="${d.idRepuesto}" selected>${d.repuesto}</option>
-                                </select>
-                              </div>
-
-                              <div class="form-group">
-                                <label for="mantenimiento">Mantenimiento</label>
-                                <input id="mantenimiento" class="form-control inputValue" type="text" name="mantenimiento" placeholder="Nombre del mantenimiento para asignar" value="${d.mantenimiento}" required>
-                              </div>  
-
-                                <input type="hidden" id="idMantenimiento" name="idMantenimiento" value="${d.idMantenimiento}">
-                                <input type="hidden" id="peticion" name="peticion" value="actualizar">
-
-
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary cancelar" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-success btnActualizar">Actualizar</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
+                      
                    
                       <!-- ELIMINAR-->
                       <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar${d.idMantenimiento}">
@@ -303,8 +260,8 @@
                             <form class="frmEliminar" action="../CRUD/mantenimiento.php">
                             <div class="modal-body">
                             
-                              <p>Herramienta: ${d.herramienta}</p>
-                              <p>Repuesto: ${d.repuesto}</p>
+                              <p>Herramienta: ${d.idHerramienta}</p>
+                              <p>Repuesto: ${d.idRepuesto}</p>
                               <p>Mantemiento: ${d.mantenimiento}</p>
                               
 
@@ -327,6 +284,61 @@
 
                 `;
 
+                /* 
+                <!-- ACTUALIZAR-->
+                      <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#actualizar${d.idMantenimiento}">
+                        ACTUALIZAR
+                      </button>                        
+                      <!-- Modal Actualizar -->
+                      <div class="modal fade" id="actualizar${d.idMantenimiento}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form class="frmActualizar" action="../CRUD/mantenimiento.php">
+                              <div class="modal-body">
+                                  
+                              <div class="form-group">
+                                <label for="idHerramienta">Herramienta</label>
+                                <select id="idHerramienta" class="form-control inputValue herramientas selectMultiple" name="idHerramienta[]" multiple="multiple" required> 
+                                  <option value="${d.idHerramienta}" selected>${d.idHerramienta}</option>
+
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="idRepuesto">Repuesto</label>
+                                <select id="idRepuesto" class="form-control inputValue repuestos selectMultiple" name="idRepuesto[]" multiple="multiple" required> 
+                                  <option value="${d.idRepuesto}" selected>${d.idRepuesto}</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="mantenimiento">Mantenimiento</label>
+                                <input id="mantenimiento" class="form-control inputValue" type="text" name="mantenimiento" placeholder="Nombre del mantenimiento para asignar" value="${d.mantenimiento}" required>
+                              </div>  
+
+                                <input type="hidden" id="idMantenimiento" name="idMantenimiento" value="${d.idMantenimiento}">
+                                <input type="hidden" id="peticion" name="peticion" value="actualizar">
+
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary cancelar" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success btnActualizar">Actualizar</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                
+                
+                */
+
             });
             //IMPRIMO EL HTML
             $('#tablaDatos').html(template);
@@ -348,10 +360,11 @@
           if(response != '0'){
             let datos = response;
             let template = ` <option disabled  >Seleccionar</option>`;
+            /* <option value="${d.idHerramienta}">${d.herramienta}</option> */
             datos.forEach(d => {
               template += //html 
               `
-              <option value="${d.idHerramienta}">${d.herramienta}</option>
+              <option value="${d.herramienta}">${d.herramienta}</option>
               `
             });//foreach
             $('.herramientas').append(template);
@@ -369,10 +382,11 @@
           if(response != '0'){
             let datos = response;
             let template = ` <option disabled  >Seleccionar</option>`;
+            /* <option value="${d.idRepuesto}">${d.repuesto}</option> */
             datos.forEach(d => {
               template += //html 
               `
-              <option value="${d.idRepuesto}">${d.repuesto}</option>
+              <option value="${d.repuesto}">${d.repuesto}</option>
               `
             });//foreach
             $('.repuestos').append(template);

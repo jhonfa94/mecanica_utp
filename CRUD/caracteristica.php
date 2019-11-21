@@ -3,18 +3,15 @@ include_once './database.php';
 $conexionDB = conexionDB();
 
 //RECIBO DATOS DEL FORMULARIO
-$marca = isset($_REQUEST['marca']) ? $_REQUEST['marca'] : '';
-$color = isset($_REQUEST['color']) ? $_REQUEST['color'] : '';
-$modelo = isset($_REQUEST['modelo']) ? $_REQUEST['modelo'] : '';
+$caracteristica = isset($_REQUEST['caracteristica']) ? $_REQUEST['caracteristica'] : '';
 $idCaracteristica = isset($_REQUEST['idCaracteristica']) ? $_REQUEST['idCaracteristica'] : 0;
 $peticion = isset($_REQUEST['peticion']) ? $_REQUEST['peticion'] : '';
 
 switch ($peticion) {
     case 'registrar':
         $sql = "INSERT INTO caracteristicas VALUES(NULL,
-            '$marca',
-            '$color',
-            '$modelo'
+            '$caracteristica',
+            CURDATE()
         )";
 
         $resultado = $conexionDB->query($sql);
@@ -48,7 +45,7 @@ switch ($peticion) {
     break;
 
     case 'actualizar':
-        $sql ="UPDATE caracteristicas SET marca='$marca', color='$color', modelo= '$modelo'
+        $sql ="UPDATE caracteristicas SET caracteristica='$caracteristica'
             WHERE idCaracteristica = $idCaracteristica
         ";
         $resultado=$conexionDB->query($sql);

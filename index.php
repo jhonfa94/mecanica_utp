@@ -61,9 +61,9 @@
       </div>
       <!-- /.social-auth-links -->
 
-      <p class="mb-1">
+      <!-- <p class="mb-1">
         <a href="#">Olvidé  mi contraseña</a>
-      </p>
+      </p> -->
       
     </div>
     <!-- /.login-card-body -->

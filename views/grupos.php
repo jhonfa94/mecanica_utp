@@ -4,7 +4,10 @@
 <head>
   <?php include './includes/head.php'; ?>
 
-  <link rel="stylesheet" href="./plugins/datatables/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="./plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="./plugins/datatables/jquery.dataTables.min.css"> 
+ 
+   
 
   <title>Grupos</title>
 </head>
@@ -95,18 +98,17 @@
 
                       <div class="form-group">
                         <label for="idCaracteristica">Característica</label>
-                        <select id="idCaracteristica" class="form-control inputValue caracteristicas" name="idCaracteristica" required> 
+                        <br>
+                        <select id="idCaracteristica" class="form-control  inputValue caracteristicas selectMultiple" name="idCaracteristica[]" multiple="multiple" required> 
                         </select>
                       </div>
 
                       <div class="form-group">
                         <label for="idMantenimiento">Mantenimiento</label>
-                        <select id="idMantenimiento" class="form-control inputValue mantenimientos" name="idMantenimiento" required> 
+                        <br>
+                        <select id="idMantenimiento" class="form-control inputValue mantenimientos selectMultiple" name="idMantenimiento[]" multiple="multiple" required> 
                         </select>
                       </div>
-
-                      
-
                      
                       <input type="hidden" name="peticion" value="registrar">
                     
@@ -148,6 +150,7 @@
   <?php include './includes/scripts.php';?>
   <script src="./plugins/sweetalert2/sweetalert2@8.js"></script>
   <script src="./plugins/datatables/dataTables.min.js"></script>
+  <script src="./plugins/select2/select2.min.js"></script>
 
 
   <script>
@@ -175,6 +178,11 @@
 
         });
       }
+
+      //FUNCION DEL SELECT2
+      $('.selectMultiple').select2({
+        dropdownParent: $('#modalMantenimiento')
+      });
 
       //CODIGO JS
       $(".cancelar").click(function (e) { 
@@ -236,10 +244,54 @@
                   <tr>                 
                     <td>${d.idGrupo}</td>
                     <td>${d.grupo}</td>
-                    <td>${d.marca}</td>
-                    <td>${d.mantenimiento}</td>                
+                    <td>${d.idCaracteristica}</td>
+                    <td>${d.idMantenimiento}</td>                
                     <td>
-                      <!-- ACTUALIZAR-->
+                      
+                   
+                      <!-- ELIMINAR-->
+                      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar${d.idGrupo}">
+                        ELIMINAR
+                      </button>                        
+                      <!-- Modal Eliminar -->
+                      <div class="modal fade" id="eliminar${d.idGrupo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Desea eliminar este registro </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form class="frmEliminar" action="../CRUD/grupo.php">
+                            <div class="modal-body">
+                            
+                              <p>Grupo: ${d.grupo}</p>
+                              <p>Caracteristica: ${d.idCaracteristica}</p>
+                              <p>Mantemiento: ${d.mantenimiento}</p>
+                              
+
+                            <input type="hidden" id="idGrupo" name="idGrupo" value="${d.idGrupo}">
+                                <input type="hidden" id="peticion" name="peticion" value="eliminar">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                            </form>
+                            
+                          </div>
+                        </div>
+                      </div>
+
+                      
+                    </td>                  
+                  </tr>
+
+                `;
+
+                /* 
+                <!-- ACTUALIZAR-->
                       <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#actualizar${d.idGrupo}">
                         ACTUALIZAR
                       </button>                        
@@ -263,8 +315,8 @@
 
                               <div class="form-group">
                                 <label for="idCaracteristica">Característica</label>
-                                <select id="idCaracteristica" class="form-control inputValue caracteristicas" name="idCaracteristica" required> 
-                                <option value="${d.idCaracteristica}">${d.marca}</option>
+                                <select id="idCaracteristica" class="form-control inputValue caracteristicas selectMultiple" name="idCaracteristica" multiple="multiple" required> 
+                                <option value="${d.idCaracteristica}">${d.caracteristica}</option>
                                 </select>
                               </div>
 
@@ -290,47 +342,7 @@
                           </div>
                         </div>
                       </div>
-                   
-                      <!-- ELIMINAR-->
-                      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar${d.idGrupo}">
-                        ELIMINAR
-                      </button>                        
-                      <!-- Modal Eliminar -->
-                      <div class="modal fade" id="eliminar${d.idGrupo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Desea eliminar este registro </h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form class="frmEliminar" action="../CRUD/grupo.php">
-                            <div class="modal-body">
-                            
-                              <p>Grupo: ${d.grupo}</p>
-                              <p>Caracteristica: ${d.marca}</p>
-                              <p>Mantemiento: ${d.mantenimiento}</p>
-                              
-
-                            <input type="hidden" id="idGrupo" name="idGrupo" value="${d.idGrupo}">
-                                <input type="hidden" id="peticion" name="peticion" value="eliminar">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </div>
-                            </form>
-                            
-                          </div>
-                        </div>
-                      </div>
-
-                      
-                    </td>                  
-                  </tr>
-
-                `;
+                */
 
             });
             //IMPRIMO EL HTML
@@ -356,7 +368,7 @@
             datos.forEach(d => {
               template += //html 
               `
-              <option value="${d.idCaracteristica}">${d.marca}</option>
+              <option value="${d.caracteristica}">${d.caracteristica}</option>
               `
             });//foreach
             $('.caracteristicas').append(template);
@@ -377,7 +389,7 @@
             datos.forEach(d => {
               template += //html 
               `
-              <option value="${d.idMantenimiento}">${d.mantenimiento}</option>
+              <option value="${d.mantenimiento}">${d.mantenimiento}</option>
               `
             });//foreach
             $('.mantenimientos').append(template);

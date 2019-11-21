@@ -12,10 +12,20 @@ $peticion = isset($_REQUEST['peticion']) ? $_REQUEST['peticion'] : '';
 
 switch ($peticion) {
     case 'registrar':
+        $caracteristicas = '';
+        foreach ($_REQUEST['idCaracteristica'] as $c) {
+            $caracteristicas .= $c .",";
+        }
+        $mantenimientos = '';
+        foreach ($_REQUEST['idMantenimiento'] as $m) {
+            $mantenimientos .= $m .",";
+        }
+
+        
         $sql = "INSERT INTO grupos VALUES(NULL,
             '$grupo',
-            $idCaracteristica,
-            $idMantenimiento,
+            '$caracteristicas',
+            '$mantenimientos',
             CURDATE()
         )";
 
@@ -30,13 +40,17 @@ switch ($peticion) {
     break;
 
     case 'listar':
-        $sql = "SELECT g.idGrupo, g.grupo,
-            g.idCaracteristica, c.marca,
+        /* $sql = "SELECT g.idGrupo, g.grupo,
+            g.idCaracteristica, c.caracteristica,
             g.idMantenimiento, m.mantenimiento,
             g.fecha_creacion
             FROM grupos g
             INNER JOIN caracteristicas c ON g.idCaracteristica = c.idCaracteristica
             INNER JOIN actividad_mantenimiento m ON g.idMantenimiento = m.idMantenimiento
+        "; */
+        $sql = "SELECT *
+            FROM grupos g            
+            
         ";
         $resultado = $conexionDB->query($sql);
         if ($resultado) {
