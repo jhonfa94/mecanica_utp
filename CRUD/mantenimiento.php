@@ -20,11 +20,13 @@ switch ($peticion) {
         foreach ($_REQUEST['idHerramienta'] as $h) {
             $herramientas .= $h .",";
         }
-
+        $herramientas = substr($herramientas,0,-1);
+        
         $repuestos = '';
         foreach ($_REQUEST['idRepuesto'] as $r) {
             $repuestos .= $r .",";
         }
+        $repuestos = substr($repuestos,0,-1);
 
         
 

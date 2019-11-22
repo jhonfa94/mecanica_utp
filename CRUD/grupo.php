@@ -16,10 +16,13 @@ switch ($peticion) {
         foreach ($_REQUEST['idCaracteristica'] as $c) {
             $caracteristicas .= $c .",";
         }
+        $caracteristicas = substr($caracteristicas,0,-1);
+        
         $mantenimientos = '';
         foreach ($_REQUEST['idMantenimiento'] as $m) {
             $mantenimientos .= $m .",";
         }
+        $mantenimientos = substr($mantenimientos,0,-1);
 
         
         $sql = "INSERT INTO grupos VALUES(NULL,

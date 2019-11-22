@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once './database.php';
 $conexionDB = conexionDB();
 
@@ -11,6 +11,45 @@ $idEquipo = isset($_REQUEST['idEquipo']) ? $_REQUEST['idEquipo'] : 0;
 $peticion = isset($_REQUEST['peticion']) ? $_REQUEST['peticion'] : '';
 
 switch ($peticion) {
+    case 'agregar':
+
+        $equipo = $_REQUEST['equipo'];
+        $grupo = $_REQUEST['grupo'];
+        $frecuencia = $_REQUEST['frecuencia'];
+        $caracteristica = $_REQUEST['caracteristica'];
+        $valor = $_REQUEST['valor'];
+
+        $totalArray = sizeof($caracteristica);
+        if ($totalArray > 0) {
+
+            foreach ($caracteristica as $key => $c) {
+                $sql = "INSERT INTO equipos VALUES(NULL,
+                        '$equipo',
+                        $grupo,
+                        $frecuencia,
+                        '$caracteristica[$key]',
+                        '$valor[$key]',
+                        CURDATE()
+                )";
+                $resultado = $conexionDB->query($sql);
+            }
+
+            if ($resultado) {
+                echo "1"; //Se guardo correctamente
+            } else {
+                echo "0"; //No se guardo correctamente
+            }
+
+        }
+
+
+
+        
+
+
+
+        break;
+
     case 'registrar':
         $sql = "INSERT INTO equipos VALUES(NULL,
             '$equipo',
@@ -21,13 +60,13 @@ switch ($peticion) {
 
         $resultado = $conexionDB->query($sql);
         if ($resultado) {
-            echo "1";//Se guardo correctamente
+            echo "1"; //Se guardo correctamente
         } else {
             echo "0"; //No se guardo correctamente
         }
-                
-        
-    break;
+
+
+        break;
 
     case 'listar':
         $sql = "SELECT e.idEquipo, e.equipo, 
@@ -35,63 +74,74 @@ switch ($peticion) {
                 e.frecuencia, e.fecha_creacion
                 FROM equipos e
                 INNER JOIN grupos g ON g.idGrupo = e.idGrupo
+                GROUP BY e.equipo
         ";
         $resultado = $conexionDB->query($sql);
         if ($resultado) {
             while ($row =  $resultado->fetch_assoc()) {
-                $arreglo [] = $row;             
-
+                $arreglo[] = $row;
             }
 
             header("Content-type: application/json; charset=utf-8");
             echo json_encode($arreglo);
-            
         } else {
             echo "0"; //problemas al listar 
         }
-        
 
 
-    break;
+
+        break;
 
     case 'actualizar':
-        $sql ="UPDATE equipos SET equipo='$equipo', idGrupo='$idGrupo', frecuencia= '$frecuencia'
+        $sql = "UPDATE equipos SET equipo='$equipo', idGrupo='$idGrupo', frecuencia= '$frecuencia'
             WHERE idEquipo = $idEquipo
         ";
-        $resultado=$conexionDB->query($sql);
+        $resultado = $conexionDB->query($sql);
         if ($resultado) {
-            header("Location: ../views/equipos.php");//SE ACTUALIZO CORRECTAMENTE
-        } 
-
-    break;
+            header("Location: ../views/equipos.php"); //SE ACTUALIZO CORRECTAMENTE
+        }
+        break;
 
     case 'grupos':
-        $sql ="SELECT * FROM grupos ";
-        $resultado=$conexionDB->query($sql);
+        $sql = "SELECT * FROM grupos ";
+        $resultado = $conexionDB->query($sql);
         if ($resultado) {
             while ($row =  $resultado->fetch_assoc()) {
-                $arreglo [] = $row;   
+                $arreglo[] = $row;
             }
             header("Content-type: application/json; charset=utf-8");
             echo json_encode($arreglo);
-            
         } else {
             echo "0"; //problemas al listar 
         }
-    break;
+        break;
 
-    
-    case 'eliminar':
-        $sql ="DELETE FROM  equipos
-            WHERE idEquipo = $idEquipo
-        ";
-        $resultado=$conexionDB->query($sql);
+    case 'grupo':
+        $sql = "SELECT * FROM grupos WHERE idGrupo = $idGrupo";
+        $resultado = $conexionDB->query($sql);
         if ($resultado) {
-            header("Location: ../views/equipos.php");//SE ACTUALIZO CORRECTAMENTE
-        } 
+            while ($row =  $resultado->fetch_assoc()) {
+                $arreglo[] = $row;
+            }
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($arreglo);
+        } else {
+            echo "0"; //problemas al listar 
+        }
+        break;
 
-    break;
-    
+
+    case 'eliminar':
+        $sql = "DELETE FROM  equipos
+            WHERE equipo = '$equipo'
+        ";
+        $resultado = $conexionDB->query($sql);
+        if ($resultado) {
+            header("Location: ../views/equipos.php"); //SE ACTUALIZO CORRECTAMENTE
+        }
+
+        break;
+
     default:
         echo "No se recibe ninguna petición";
         break;
@@ -106,4 +156,3 @@ switch ($peticion) {
 
 
 $conexionDB->close();
-?>

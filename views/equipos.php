@@ -28,9 +28,11 @@
           <div class="row mb-2">
             <div class="col-sm-6">
               <!-- <h1 class="m-0 text-dark">Características</h1> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalMantenimiento">
+              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalMantenimiento">
               Agregar Equipo
-              </button>
+              </button> -->
+              <a href="./equipoAgregar.php" class="btn btn-success">Agregar Equipo</a>
+              
 
 
             </div><!-- /.col -->
@@ -76,6 +78,7 @@
             <!-- Button trigger modal -->
             
             <!-- Modal -->
+            <!--
             <div class="modal fade" id="modalMantenimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -117,6 +120,7 @@
                 </div>
               </div>
             </div>
+            -->
 
 
 
@@ -238,7 +242,52 @@
                     <td>${d.frecuencia}</td>                
                     <td>${d.fecha_creacion}</td>                
                     <td>
-                      <!-- ACTUALIZAR-->
+                      <a href="./equipoDetalle.php?equipo=${d.equipo}" class="btn btn-sm btn-info">Detalles</a>
+                      
+                   
+                      <!-- ELIMINAR-->
+                      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar${d.idEquipo}">
+                        ELIMINAR
+                      </button>                        
+                      <!-- Modal Eliminar -->
+                      <div class="modal fade" id="eliminar${d.idEquipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Desea eliminar este registro </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form class="frmEliminar" action="../CRUD/equipo.php">
+                            <div class="modal-body">
+                            
+                              <p>Equipo: ${d.equipo}</p>
+                              <p>Grupo: ${d.grupo}</p>
+                              <p>Frecuencia: ${d.frecuencia}</p>                              
+
+                            <input type="hidden" id="equipo" name="equipo" value="${d.equipo}">
+                                <input type="hidden" id="peticion" name="peticion" value="eliminar">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                            </form>
+                            
+                          </div>
+                        </div>
+                      </div>
+
+                      
+                    </td>                  
+                  </tr>
+
+                `;
+
+
+                /* 
+                <!-- ACTUALIZAR-->
                       <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#actualizar${d.idEquipo}">
                         ACTUALIZAR
                       </button>                        
@@ -289,46 +338,8 @@
                           </div>
                         </div>
                       </div>
-                   
-                      <!-- ELIMINAR-->
-                      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar${d.idEquipo}">
-                        ELIMINAR
-                      </button>                        
-                      <!-- Modal Eliminar -->
-                      <div class="modal fade" id="eliminar${d.idEquipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Desea eliminar este registro </h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form class="frmEliminar" action="../CRUD/equipo.php">
-                            <div class="modal-body">
-                            
-                              <p>Equipo: ${d.equipo}</p>
-                              <p>Grupo: ${d.grupo}</p>
-                              <p>Frecuencia: ${d.frecuencia}</p>                              
-
-                            <input type="hidden" id="idEquipo" name="idEquipo" value="${d.idEquipo}">
-                                <input type="hidden" id="peticion" name="peticion" value="eliminar">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </div>
-                            </form>
-                            
-                          </div>
-                        </div>
-                      </div>
-
-                      
-                    </td>                  
-                  </tr>
-
-                `;
+                
+                 */
 
             });
             //IMPRIMO EL HTML
