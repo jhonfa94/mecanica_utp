@@ -192,7 +192,7 @@
               $('#frmEquipo')[0].reset();
 
               setTimeout(() => {
-                location.reload()
+                window.location = "equipos.php";  
               }, 2500);
 
             } else {

@@ -61,7 +61,7 @@
                       <th>EQUIPO</th>
                       <th>GRUPO</th>
                       <th>FRECUENCIA</th>
-                      <th>FECHA</th>
+                      <th>FECHA DE REGISTRO</th>
                       <th></th>
                       
                     </tr>

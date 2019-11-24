@@ -74,7 +74,7 @@
           <li class="nav-item">
             <a href="./equipos.php" class="nav-link">              
               <i class="nav-icon fas fa-folder-plus"></i>
-              <p>  Crear Equipo </p>
+              <p>  Equipos </p>
             </a>
           </li>
 

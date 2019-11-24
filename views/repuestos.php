@@ -250,7 +250,7 @@
                                   <input id="repuesto" class="form-control inputValue" type="text" name="repuesto" value="${d.repuesto}" required>
                                 </div>
                                 <div class="form-group">
-                                  <label for="cantidad">Color</label>
+                                  <label for="cantidad">Cantidad</label>
                                   <input id="cantidad" class="form-control inputValue" type="number" name="cantidad" value="${d.cantidad}" required>
                                 </div>
                                
