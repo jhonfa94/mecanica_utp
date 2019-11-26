@@ -7,6 +7,7 @@ if (!isset($_REQUEST['equipo'])) {
   header("Location: equipos.php");
 } else {
   $equipo = $_REQUEST['equipo'];
+  $fecha = $_REQUEST['fecha'];
 
   //CONSULTA PARA EXTRAER LOS DETALLES
   $detalles = "SELECT e.idEquipo, e.equipo, 
@@ -66,10 +67,10 @@ if (!isset($_REQUEST['equipo'])) {
   /* PROGRAMACION DE MANTENIMIENTOS  */
   $mesesAnio = 24;
   $mesesProgramados = array();
-  for ($i = 1; $i <= $mesesAnio; $i++) {
+  for ($i = 1; $i < $mesesAnio; $i++) {
 
-    $f = $frecuencia * $i;    
-    
+    $f = $frecuencia * $i;
+
     $programacionM = "SELECT e.fecha_creacion, 
       DATE_ADD(e.fecha_creacion,INTERVAL $f WEEK) AS fechaMantenimiento 
       FROM equipos e
@@ -80,9 +81,6 @@ if (!isset($_REQUEST['equipo'])) {
     $rowP = $resultadoProgramacionM->fetch_assoc();
     $fechaMantenimiento = $rowP['fechaMantenimiento'];
     array_push($mesesProgramados, $fechaMantenimiento);
-
-    
-
   }
 }
 
@@ -142,14 +140,14 @@ if (!isset($_REQUEST['equipo'])) {
               <img src="./dist/img/utp/logoutp.jpg" alt="UTP" class="img-fluid" width="150">
             </div>
             <div class="col-md-4 text-center">
-              <h5> FICHA TÉCNICA
+              <h5> ORDEN DE TRABAJO
                 <br>
                 <?= $equipo ?>
               </h5>
             </div>
             <div class="col-md-4 text-center">
               <h5>
-                FECHA REPORTE <br>
+                FECHA <br>
                 <?= date('Y-m-d') ?>
               </h5>
             </div>
@@ -157,132 +155,138 @@ if (!isset($_REQUEST['equipo'])) {
 
           </div> <!-- /.row -->
 
-          <!-- INFORMACION GENERAL -->
-          <div class="row mt-3 ">
 
-            <div class="col-md-3 ">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="text-center font-weight-bold">Características</h5>
-                  <table class="table table-sm table-hover table-bordered">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Nombre</th>
-                        <th>Valor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      if ($resultadoCaracteristicas->num_rows > 0) {
-                        while ($row = $resultadoCaracteristicas->fetch_assoc()) {
-                          $caracteristica = $row['caracteristica'];
-                          $valor = $row['valor'];
-                          ?>
-                          <tr>
-                            <td><?= $caracteristica ?></td>
-                            <td><?= $valor ?></td>
-                          </tr>
-                      <?php
-                        } //END WHILE
-                      } //END IF
+          <div class="row mt-2">
+            <div class="col-md-4">
+              Fecha de programación: <b> <?= $fecha ?> </b>
+              <br>
+              Fecha de elaboración: <input type="date" name="fechaElaboracion" id="fechaElaboracion">
+            </div>
 
-
-                      ?>
-
-                    </tbody>
-                  </table>
-
-                </div>
-              </div>
-            </div><!-- col-md-4 -->
-
-            <!-- MANTENIMIENTOS -->
-            <div class="col-md-3 ">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="text-center font-weight-bold">Manteminientos</h5>
-                  <table class="table table-sm table-bordered ">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Grupo</th>
-                        <th>Mantenimiento</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      foreach ($arrayMantenimento as $m) {
-                        ?>
-                        <tr>
-                          <td><?= $grupo ?></td>
-                          <td><?= $m ?></td>
-                        </tr>
-                      <?php } ?>
-                    </tbody>
-                  </table>
-                </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="nombreAutoriza">Nombre de quien autoriza: </label>
+                <input id="nombreAutoriza" class="form-control" type="text" name="nombreAutoriza">
               </div>
 
-            </div><!-- col-md-3 -->
-
-            <!-- DETALLES -->
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="text-center font-weight-bold">Detalles</h5>
-                  <table class="table table-sm table-bordered ">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Mantenimiento</th>
-                        <th>Repuestos</th>
-                        <th>Herramientas</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      echo $tr;
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="form-group">
+                <label for="nombreSupervisa">Nombre de quien supervisa: </label>
+                <input id="nombreSupervisa" class="form-control" type="text" name="nombreSupervisa">
               </div>
 
-            </div><!-- col-md-4 -->
-
-
-          </div>
-          <hr>
-
-          <!-- MANTENIMIENTOS PROGRAMADOS -->
-          <div class="row ">
-            <div class="col-md-12">
-              <h4>Programación de mantenimientos</h4>
-              <?php
-                    foreach ($mesesProgramados as $mes) {
-                      echo "                      
-                      <a href='./equipoMantenimiento.php?equipo=$equipo&fecha=$mes' class='btn border border-primary'>$mes</a>                                            
-                      ";
-                    }
-                  ?>  
-                  
-
-
-              <!-- <table class="table table-sm table-bordered table-light">
-                <tbody>
-                  <tr> -->
-                  <?php
-                    /* foreach ($mesesProgramados as $mes) {
-                      echo "                      
-                        <td class='border border-dark'>$mes</td>                      
-                      ";
-                    } */
-                  ?>  
-                  <!-- </tr>                
-                </tbody>
-              </table> -->
 
 
             </div>
+
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="Codigo">Código: </label>
+                <input id="codigo" class="form-control" type="text" name="codigo">
+              </div>
+
+              <div class="form-group">
+                <label for="nombreSupervisa">Ordenado a: </label>
+                <input id="ordenadoA" class="form-control" type="text" name="ordenadoA">
+              </div>
+
+
+              
+            </div>
+
+          </div><!-- row -->
+
+
+          <div class="row mt-2">
+
+            <!-- MANTENIMIENTOS -->
+            <div class="col-md-4 ">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="text-center font-weight-bold">Actividad de manteminiento
+                    :
+                  </h5>
+                  <ul>
+                    <?php
+                    foreach ($arrayMantenimento as $m) {
+                      echo "<li>$m </li>";
+                    }
+                    ?>
+
+                  </ul>
+
+                </div>
+              </div>
+
+            </div><!-- col-md-4 -->
+
+
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="tiempoEstimado">Tiempo estimado para la ejecución: </label>
+                    <input id="tiempoEstimado" class="form-control" type="text" name="tiempoEstimado">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="duracion">Duración: </label>
+                    <input id="duracion" class="form-control" type="text" name="duracion">
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="listaRepuetos">Lista de repuestos: </label>
+                    <textarea id="listaRepuetos" class="form-control" name="listaRepuestos" rows="3"></textarea>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+
           </div>
+
+          <div class="row mt-2">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="revisadoPor">Revisado por: </label>
+                <input id="revisadoPor" class="form-control" type="text" name="revisadoPor">
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="observaciones">Observaciones: </label>
+                <textarea id="observaciones" class="form-control" name="observaciones" rows="3"></textarea>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         </div><!-- /.container-fluid -->
