@@ -22,6 +22,7 @@ switch ($peticion) {
         $totalArray = sizeof($caracteristica);
         if ($totalArray > 0) {
 
+            
             foreach ($caracteristica as $key => $c) {
                 $sql = "INSERT INTO equipos VALUES(NULL,
                         '$equipo',
@@ -39,12 +40,11 @@ switch ($peticion) {
             } else {
                 echo "0"; //No se guardo correctamente
             }
-
         }
 
 
 
-        
+
 
 
 
